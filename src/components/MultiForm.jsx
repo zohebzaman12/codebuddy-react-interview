@@ -24,8 +24,26 @@ const MultiForm = () => {
     setStep(step - 1);
   };
 
+  const handleSubmit = () => {
+    const { acceptTermsAndCondition, ...dataToSubmit } = formData;
+    console.log(dataToSubmit);
+    fetch('https://codebuddy.review/submit', {
+      method: 'POST',
+      body: JSON.stringify(dataToSubmit),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        // Redirect to /posts
+        window.location.href = '/posts';
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
   return (
-    <div>
+    <div className="container mx-auto p-4">
       {step === 1 && <Form1 formData={formData} setFormData={setFormData} nextStep={nextStep} />}
       {step === 2 && (
         <Form2
@@ -35,7 +53,7 @@ const MultiForm = () => {
           prevStep={prevStep}
         />
       )}
-      {step === 3 && <Form3 formData={formData} setFormData={setFormData} prevStep={prevStep} />}
+      {step === 3 && <Form3 formData={formData} setFormData={setFormData} prevStep={prevStep} handleSubmit={handleSubmit}/>}
     </div>
   );
 };
