@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Form1 from "./Form1";
 import Form2 from "./Form2";
 import Form3 from "./Form3";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import TabNav from "./TabNav";
 
 const MultiForm = () => {
   const [step, setStep] = useState(1);
@@ -11,10 +14,12 @@ const MultiForm = () => {
     firstName: "",
     lastName: "",
     address: "",
-    countryCode: "",
+    countryCode: "+91",
     phoneNumber: "",
     acceptTermsAndCondition: false,
   });
+
+  const navigate = useNavigate();
 
   const nextStep = () => {
     setStep(step + 1);
@@ -35,7 +40,18 @@ const MultiForm = () => {
       .then((data) => {
         console.log('Success:', data);
         // Redirect to /posts
-        window.location.href = '/posts';
+        toast.success('Form submitted successfully!', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          // transition: Bounce,
+          });
+        navigate('/posts')
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -44,6 +60,7 @@ const MultiForm = () => {
 
   return (
     <div className="container mx-auto p-4">
+       <TabNav step={step} setStep={setStep} />
       {step === 1 && <Form1 formData={formData} setFormData={setFormData} nextStep={nextStep} />}
       {step === 2 && (
         <Form2

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const Form1 = ({ formData, setFormData, nextStep }) => {
   const [errors, setErrors] = useState({});
@@ -65,7 +66,18 @@ const Form1 = ({ formData, setFormData, nextStep }) => {
     <button type="button" className="px-4 py-2 bg-gray-500 text-white rounded cursor-not-allowed" disabled>
       Back
     </button>
-    <button type="button" onClick={() => console.log('Save clicked')} className="px-4 py-2 bg-blue-500 text-white rounded">Save</button>
+    <button type="button" onClick={() =>{
+      toast.success('Form saved!', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }} className="px-4 py-2 bg-blue-500 text-white rounded">Save</button>
     <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded">Save and Next</button>
     </div>
   </form>

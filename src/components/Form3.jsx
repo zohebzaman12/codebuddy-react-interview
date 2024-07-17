@@ -29,13 +29,14 @@ const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      console.log(formData);
       handleSubmit();
     }
   };
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      <div >
+      <div>
         <label className="block text-gray-700">Country Code:</label>
         <select
           value={formData.countryCode}
@@ -59,7 +60,9 @@ const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
         {errors.phoneNumber && <span>{errors.phoneNumber}</span>}
       </div>
       <div>
-        <label className="block text-gray-700" htmlFor="termsAndCondition">Accept Terms and Conditions</label>
+        <label className="block text-gray-700" htmlFor="termsAndCondition">
+          Accept Terms and Conditions
+        </label>
         <input
           type="checkbox"
           checked={formData.acceptTermsAndCondition}
@@ -67,22 +70,28 @@ const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
           className="mt-1 block w-full rounded border p-2"
           name="termsAndCondition"
         />
-        {errors.acceptTermsAndCondition && <span className="text-red-500">{errors.acceptTermsAndCondition}</span>}
+        {errors.acceptTermsAndCondition && (
+          <span className="text-red-500">{errors.acceptTermsAndCondition}</span>
+        )}
       </div>
       <div className="flex space-x-2">
         <button
           type="button"
           onClick={prevStep}
-          className="px-4 py-2 bg-red-500 text-white rounded"
+          className="rounded bg-red-500 px-4 py-2 text-white"
         >
           Back
         </button>
         <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white">
           Save
         </button>
-        <button type="button" className="px-4 py-2 bg-gray-500 text-white rounded cursor-not-allowed" disabled>
-      Save and Next
-    </button>
+        <button
+          type="button"
+          className="cursor-not-allowed rounded bg-gray-500 px-4 py-2 text-white"
+          disabled
+        >
+          Save and Next
+        </button>
       </div>
     </form>
   );

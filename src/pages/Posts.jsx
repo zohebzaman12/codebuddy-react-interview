@@ -8,10 +8,10 @@ const Posts = () => {
   useEffect(() => {
     fetch("https://codebuddy.review/posts")
       .then((response) => response.json())
-      .then((data) => setPosts(data))
+      .then((result) => setPosts(result.data))
       .catch((error) => console.error("Error fetching posts:", error));
   }, []);
-
+    
   return (
     <div className="rounded-lg bg-gray-50 p-7 text-gray-900 shadow-lg">
       <h1 className="mb-7 text-4xl font-bold">Posts</h1>
@@ -27,6 +27,7 @@ const Posts = () => {
               <img src={post.avatar} alt={post.firstName} className="w-12 h-12 rounded-full" />
               <div>
                 <h2 className="text-xl font-semibold">{post.firstName} {post.lastName}</h2>
+                <h3>{post.id}</h3>
               </div>
             </div>
             <img src={post.image} alt={post.writeup} className="w-full h-48 object-cover rounded mb-4" />

@@ -24,8 +24,6 @@ const Home = () => {
           Posts
           <Icon icon="mdi:arrow-right" className="ml-2" />
         </Link>
-      </div>
-      <div>
         <MultiForm />
       </div>
     </>
