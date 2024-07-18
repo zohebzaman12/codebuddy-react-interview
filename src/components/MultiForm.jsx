@@ -32,15 +32,15 @@ const MultiForm = () => {
   const handleSubmit = () => {
     const { acceptTermsAndCondition, ...dataToSubmit } = formData;
     console.log(dataToSubmit);
-    fetch('https://codebuddy.review/submit', {
-      method: 'POST',
+    fetch("https://codebuddy.review/submit", {
+      method: "POST",
       body: JSON.stringify(dataToSubmit),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log("Success:", data);
         // Redirect to /posts
-        toast.success('Form submitted successfully!', {
+        toast.success("Form submitted successfully!", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -50,17 +50,17 @@ const MultiForm = () => {
           progress: undefined,
           theme: "light",
           // transition: Bounce,
-          });
-        navigate('/posts')
+        });
+        navigate("/posts");
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   };
 
   return (
-    <div className="container mx-auto p-4">
-       <TabNav step={step} setStep={setStep} />
+    <div className="w-full max-w-md rounded-lg bg-white p-8 text-gray-900 shadow-lg ">
+      <TabNav step={step} setStep={setStep} />
       {step === 1 && <Form1 formData={formData} setFormData={setFormData} nextStep={nextStep} />}
       {step === 2 && (
         <Form2
@@ -70,7 +70,14 @@ const MultiForm = () => {
           prevStep={prevStep}
         />
       )}
-      {step === 3 && <Form3 formData={formData} setFormData={setFormData} prevStep={prevStep} handleSubmit={handleSubmit}/>}
+      {step === 3 && (
+        <Form3
+          formData={formData}
+          setFormData={setFormData}
+          prevStep={prevStep}
+          handleSubmit={handleSubmit}
+        />
+      )}
     </div>
   );
 };

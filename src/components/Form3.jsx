@@ -59,21 +59,22 @@ const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
         />
         {errors.phoneNumber && <span>{errors.phoneNumber}</span>}
       </div>
-      <div>
-        <label className="block text-gray-700" htmlFor="termsAndCondition">
-          Accept Terms and Conditions
-        </label>
+      <div className="flex items-center justify-center space-x-2">
         <input
           type="checkbox"
           checked={formData.acceptTermsAndCondition}
           onChange={(e) => setFormData({ ...formData, acceptTermsAndCondition: e.target.checked })}
-          className="mt-1 block w-full rounded border p-2"
+          className="rounded border p-2"
           name="termsAndCondition"
         />
+        <label className="text-gray-700" htmlFor="termsAndCondition">
+          Accept Terms and Conditions
+        </label>
         {errors.acceptTermsAndCondition && (
           <span className="text-red-500">{errors.acceptTermsAndCondition}</span>
         )}
       </div>
+
       <div className="flex space-x-2">
         <button
           type="button"
