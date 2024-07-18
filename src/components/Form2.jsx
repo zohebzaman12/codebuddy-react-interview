@@ -3,17 +3,35 @@ import { toast } from "react-toastify";
 
 const Form2 = ({ formData, setFormData, nextStep, prevStep }) => {
   const [errors, setErrors] = useState({});
+  const [localFormData, setLocalFormData] = useState(formData);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      setFormData(localFormData);
       nextStep();
+    }
+  };
+
+  const handleSave = () => {
+    if (validate()) {
+      setFormData(localFormData);
+      toast.success("Form saved!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
   const validate = () => {
     let formErrors = {};
-    const { firstName, lastName, address } = formData;
+    const { firstName, lastName, address } = localFormData;
 
     // First name validation
     if (!firstName) {
@@ -42,8 +60,8 @@ const Form2 = ({ formData, setFormData, nextStep, prevStep }) => {
         <label className="block text-gray-700">First Name:</label>
         <input
           type="text"
-          value={formData.firstName}
-          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+          value={localFormData.firstName}
+          onChange={(e) => setLocalFormData({ ...localFormData, firstName: e.target.value })}
           className="mt-1 block w-full rounded border p-2"
         />
         {errors.firstName && <span className="text-red-500">{errors.firstName}</span>}
@@ -52,8 +70,8 @@ const Form2 = ({ formData, setFormData, nextStep, prevStep }) => {
         <label className="block text-gray-700">Last Name:</label>
         <input
           type="text"
-          value={formData.lastName}
-          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+          value={localFormData.lastName}
+          onChange={(e) => setLocalFormData({ ...localFormData, lastName: e.target.value })}
           className="mt-1 block w-full rounded border p-2"
         />
         {errors.lastName && <span className="text-red-500">{errors.lastName}</span>}
@@ -62,8 +80,8 @@ const Form2 = ({ formData, setFormData, nextStep, prevStep }) => {
         <label className="block text-gray-700">Address:</label>
         <input
           type="text"
-          value={formData.address}
-          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+          value={localFormData.address}
+          onChange={(e) => setLocalFormData({ ...localFormData, address: e.target.value })}
           className="mt-1 block w-full rounded border p-2"
         />
         {errors.address && <span className="text-red-500">{errors.address}</span>}
@@ -78,18 +96,7 @@ const Form2 = ({ formData, setFormData, nextStep, prevStep }) => {
         </button>
         <button
           type="button"
-          onClick={() => {
-            toast.success("Form saved!", {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }}
+          onClick={handleSave}
           className="rounded bg-blue-500 px-4 py-2 text-white"
         >
           Save

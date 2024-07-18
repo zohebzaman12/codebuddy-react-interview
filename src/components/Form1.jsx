@@ -3,10 +3,11 @@ import { toast } from "react-toastify";
 
 const Form1 = ({ formData, setFormData, nextStep }) => {
   const [errors, setErrors] = useState({});
+  const [localFormData, setLocalFormData] = useState(formData);
 
   const validate = () => {
     let formErrors = {};
-    const { emailId, password } = formData;
+    const { emailId, password } = localFormData;
 
     // Email validation
     if (!emailId) {
@@ -42,7 +43,24 @@ const Form1 = ({ formData, setFormData, nextStep }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      setFormData(localFormData);
       nextStep();
+    }
+  };
+
+  const handleSave = () => {
+    if (validate()) {
+      setFormData(localFormData);
+      toast.success("Form saved!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -52,8 +70,8 @@ const Form1 = ({ formData, setFormData, nextStep }) => {
         <label className="block text-gray-700">Email:</label>
         <input
           type="email"
-          value={formData.emailId}
-          onChange={(e) => setFormData({ ...formData, emailId: e.target.value })}
+          value={localFormData.emailId}
+          onChange={(e) => setLocalFormData({ ...localFormData, emailId: e.target.value })}
           className="mt-1 block w-full rounded border p-2"
         />
         {errors.emailId && <span className="text-red-500">{errors.emailId}</span>}
@@ -62,8 +80,8 @@ const Form1 = ({ formData, setFormData, nextStep }) => {
         <label className="block text-gray-700">Password:</label>
         <input
           type="password"
-          value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          value={localFormData.password}
+          onChange={(e) => setLocalFormData({ ...localFormData, password: e.target.value })}
           className="mt-1 block w-full rounded border p-2"
         />
         {errors.password && <span className="text-red-500">{errors.password}</span>}
@@ -78,18 +96,7 @@ const Form1 = ({ formData, setFormData, nextStep }) => {
         </button>
         <button
           type="button"
-          onClick={() => {
-            toast.success("Form saved!", {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }}
+          onClick={handleSave}
           className="rounded bg-blue-500 px-4 py-2 text-white"
         >
           Save

@@ -2,10 +2,11 @@ import React, { useState } from "react";
 
 const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
   const [errors, setErrors] = useState({});
+  const [localFormData, setLocalFormData] = useState(formData);
 
   const validate = () => {
     let formErrors = {};
-    const { countryCode, phoneNumber, acceptTermsAndCondition } = formData;
+    const { countryCode, phoneNumber, acceptTermsAndCondition } = localFormData;
 
     // Country code validation
     if (!countryCode || (countryCode !== "+91" && countryCode !== "+1")) {
@@ -26,26 +27,31 @@ const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
     return Object.keys(formErrors).length === 0;
   };
 
-  const onSubmit = (e) => {
+  const handleLocalSubmit = (e) => {
     e.preventDefault();
+
+    const { emailId, password, firstName, address } = formData;
+    if (!emailId || !password || !firstName || !address) {
+      alert("Please complete all required fields in Step 1 and Step 2.");
+      return;
+    }
     if (validate()) {
-      console.log(formData);
+      setFormData(localFormData);
       handleSubmit();
     }
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={handleLocalSubmit} className="space-y-4">
       <div>
         <label className="block text-gray-700">Country Code:</label>
         <select
-          value={formData.countryCode}
-          onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
+          value={localFormData.countryCode}
+          onChange={(e) => setLocalFormData({ ...localFormData, countryCode: e.target.value })}
           className="mt-1 block w-full rounded border p-2"
-          placeholder="Select country code"
         >
-          <option value="+91">India (+91)</option>
-          <option value="+1">America (+1)</option>
+          <option value="+91">+91 (India)</option>
+          <option value="+1">+1 (America)</option>
         </select>
         {errors.countryCode && <span className="text-red-500">{errors.countryCode}</span>}
       </div>
@@ -53,17 +59,19 @@ const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
         <label className="block text-gray-700">Phone Number:</label>
         <input
           type="text"
-          value={formData.phoneNumber}
-          onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+          value={localFormData.phoneNumber}
+          onChange={(e) => setLocalFormData({ ...localFormData, phoneNumber: e.target.value })}
           className="mt-1 block w-full rounded border p-2"
         />
-        {errors.phoneNumber && <span>{errors.phoneNumber}</span>}
+        {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber}</span>}
       </div>
       <div className="flex items-center justify-center space-x-2">
         <input
           type="checkbox"
-          checked={formData.acceptTermsAndCondition}
-          onChange={(e) => setFormData({ ...formData, acceptTermsAndCondition: e.target.checked })}
+          checked={localFormData.acceptTermsAndCondition}
+          onChange={(e) =>
+            setLocalFormData({ ...localFormData, acceptTermsAndCondition: e.target.checked })
+          }
           className="rounded border p-2"
           name="termsAndCondition"
         />
@@ -71,10 +79,9 @@ const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
           Accept Terms and Conditions
         </label>
         {errors.acceptTermsAndCondition && (
-          <span className="text-red-500">{errors.acceptTermsAndCondition}</span>
+          <div className="text-red-500">{errors.acceptTermsAndCondition}</div>
         )}
       </div>
-
       <div className="flex space-x-2">
         <button
           type="button"

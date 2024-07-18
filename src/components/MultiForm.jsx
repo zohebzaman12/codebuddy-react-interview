@@ -30,7 +30,7 @@ const MultiForm = () => {
   };
 
   const handleSubmit = () => {
-    const { acceptTermsAndCondition, ...dataToSubmit } = formData;
+    const { ...dataToSubmit } = formData;
     console.log(dataToSubmit);
     fetch("https://codebuddy.review/submit", {
       method: "POST",
