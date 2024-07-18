@@ -1,5 +1,5 @@
-import React from "react";
 import { FaAddressCard, FaPhone, FaUser } from "react-icons/fa";
+import PropTypes from "prop-types";
 
 const TabNav = ({ step, setStep }) => {
   const getProgressBarClasses = (stepIndex) => {
@@ -69,6 +69,11 @@ const TabNav = ({ step, setStep }) => {
       </div>
     </>
   );
+};
+
+TabNav.propTypes = {
+  step: PropTypes.number.isRequired,
+  setStep: PropTypes.func.isRequired,
 };
 
 export default TabNav;

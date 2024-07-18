@@ -1,34 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 
 const Form2 = ({ formData, setFormData, nextStep, prevStep }) => {
+  //STATES
   const [errors, setErrors] = useState({});
   const [localFormData, setLocalFormData] = useState(formData);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      setFormData(localFormData);
-      nextStep();
-    }
-  };
+  //FUNCTIONS
 
-  const handleSave = () => {
-    if (validate()) {
-      setFormData(localFormData);
-      toast.success("Form saved!", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  };
-
+  //Function to validate Form inputs
   const validate = () => {
     let formErrors = {};
     const { firstName, lastName, address } = localFormData;
@@ -52,6 +33,32 @@ const Form2 = ({ formData, setFormData, nextStep, prevStep }) => {
 
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
+  };
+
+  //Function to handle Form2 submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      setFormData(localFormData);
+      nextStep();
+    }
+  };
+
+  //Function to handle "Save" Button
+  const handleSave = () => {
+    if (validate()) {
+      setFormData(localFormData);
+      toast.success("Form saved!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return (
@@ -107,6 +114,13 @@ const Form2 = ({ formData, setFormData, nextStep, prevStep }) => {
       </div>
     </form>
   );
+};
+
+Form2.propTypes = {
+  formData: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  nextStep: PropTypes.func.isRequired,
+  prevStep: PropTypes.func.isRequired,
 };
 
 export default Form2;

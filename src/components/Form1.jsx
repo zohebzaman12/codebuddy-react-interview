@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 
 const Form1 = ({ formData, setFormData, nextStep }) => {
+  //STATES
   const [errors, setErrors] = useState({});
   const [localFormData, setLocalFormData] = useState(formData);
 
+  //FUNCTIONS
+
+  //Function to validate Form inputs
   const validate = () => {
     let formErrors = {};
     const { emailId, password } = localFormData;
@@ -36,10 +41,10 @@ const Form1 = ({ formData, setFormData, nextStep }) => {
     }
 
     setErrors(formErrors);
-    console.log(formErrors);
     return Object.keys(formErrors).length === 0;
   };
 
+  //Function to handle Form 1 Submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
@@ -48,6 +53,7 @@ const Form1 = ({ formData, setFormData, nextStep }) => {
     }
   };
 
+  //Function to handle "Save Button"
   const handleSave = () => {
     if (validate()) {
       setFormData(localFormData);
@@ -107,6 +113,12 @@ const Form1 = ({ formData, setFormData, nextStep }) => {
       </div>
     </form>
   );
+};
+
+Form1.propTypes = {
+  formData: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  nextStep: PropTypes.func.isRequired,
 };
 
 export default Form1;

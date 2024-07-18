@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 
 const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
+  //STATES
   const [errors, setErrors] = useState({});
   const [localFormData, setLocalFormData] = useState(formData);
 
+  //FUNCTIONS
+  //Function to validate Form inputs
   const validate = () => {
     let formErrors = {};
     const { countryCode, phoneNumber, acceptTermsAndCondition } = localFormData;
@@ -27,6 +31,7 @@ const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
     return Object.keys(formErrors).length === 0;
   };
 
+  //Function to handle Form3 submission
   const handleLocalSubmit = (e) => {
     e.preventDefault();
 
@@ -103,6 +108,13 @@ const Form3 = ({ formData, setFormData, prevStep, handleSubmit }) => {
       </div>
     </form>
   );
+};
+
+Form3.propTypes = {
+  formData: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  prevStep: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default Form3;
